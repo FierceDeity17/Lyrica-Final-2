@@ -105,6 +105,16 @@ boss[14] = {
   item: "vodka"
 }
 
+boss[2] = {
+  messages: [
+    "A tall, slender being with glowing white eyes stands before you.",
+    "dead",
+    "you killed it"
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "torch"
+}
 
 let items = ["axe"];
 let itemLocations = [10];
@@ -153,7 +163,7 @@ button.addEventListener("mouseout", mouseoutHandler, false);
 
 window.addEventListener("keydown", keydownHandler, false);
 
-render();
+window.onload = render();
 
 
 /**********************************  SECTION 6 **********************************/
@@ -214,6 +224,7 @@ function playGame() {
     case "north":
       if (mapLocation >= 4) {
         mapLocation -= 4;
+        handleBoss();
       }
       else {
         gameMessage = blockedPathMessages[mapLocation];
@@ -226,6 +237,7 @@ function playGame() {
       //if mapLocation / 3 != remainder of 2
       if (mapLocation % 4 != 3) {
         mapLocation += 1;
+        handleBoss();
       }
       else {
         gameMessage = blockedPathMessages[mapLocation];
@@ -235,6 +247,7 @@ function playGame() {
     case "south":
       if (mapLocation < 12) {
         mapLocation += 4;
+        handleBoss();
       }
       else {
         gameMessage = blockedPathMessages[mapLocation];
@@ -244,6 +257,7 @@ function playGame() {
     case "west":
       if (mapLocation % 4 != 0) {
         mapLocation -= 1;
+        handleBoss();
       }
       else {
         gameMessage = blockedPathMessages[mapLocation];
@@ -379,13 +393,9 @@ function useItem() {
     switch (item) {
       case "axe":
         if (mapLocation === 14) {
-          boss[mapLocation].fighting;
-
-          //Add the sword to the world
-          //items.push("vodka");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          
           helpMessages[mapLocation] = "You've slain Gaia. There is nothing else to do here.";
         }
         else {
@@ -395,11 +405,8 @@ function useItem() {
 
       case "vodka":
         if (mapLocation === 2) {
-          gameMessage = "You take a swig of vodka, and muster the courage to step into the mist. before you stands a tall, slender sillhouette with glowing white eyes.";
-
-          //Add the sword to the world
-          items.push("torch");
-          itemLocations.push(mapLocation);
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
 
           //Reset the location's help message
           helpMessages[mapLocation] = "You've slain the lord of the woods. The mist is gone, and the forest is silent.";
@@ -598,8 +605,9 @@ function render() {
     output.innerHTML += "<br>You are carrying: " + backpack.join(", ");
   }
 if(boss[mapLocation]){
-  if(boss[mapLocation].defeated){
-    gameMessage = boss[mapLocation].messages[DEAD];
+  let roomBoss = boss[mapLocation]
+  if(roomBoss.visible){
+    gameMessage = roomBoss.messages[roomBoss.state]
   }
 }
   //Display the game message
@@ -612,6 +620,14 @@ if(boss[mapLocation]){
 
 function fight() {
   boss[14].defeated = true
-  gameMessage = boss[mapLocation].messages[ACTION];
+  boss[mapLocation].state = ACTION
   items.push(boss[mapLocation].item)
+  itemLocations.push(mapLocation);
+}
+function handleBoss() {
+  if(boss[mapLocation]) {
+    if(boss[mapLocation].state == ACTION) {
+      boss[mapLocation].state = DEAD
+    }
+  }
 }
