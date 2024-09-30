@@ -65,6 +65,7 @@ blockedPathMessages[12] = "The tree is too big to climb, or even walk around.";
 blockedPathMessages[13] = "You and what army?";
 blockedPathMessages[14] = "Little gremlins prevent you from going that way.";
 blockedPathMessages[15] = "It's called forbidden for a reason. I won't stop you, but that is a terrible idea.";
+blockedPathMessages[16] = "There is no escape.";
 
 let helpMessages = [];
 
@@ -108,12 +109,100 @@ boss[14] = {
 boss[2] = {
   messages: [
     "A tall, slender being with glowing white eyes stands before you.",
-    "dead",
-    "you killed it"
+    "The guardian of the forest lies on the ground, in pieces. The mist is gone.",
+    "You cut the creature down to size."
   ],
   state: ALIVE,
   visible: false,
-  item: "torch"
+  item: "climbing gear"
+}
+
+boss[1] = {
+  messages: [
+    "A massive spider crawls out of the cave.",
+    "The cave has collapsed, due to the lack of webs.",
+    "You stab the spider in it's eight eyes."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "climbing gear"
+}
+
+boss[3] = {
+  messages: [
+    "At the peak of the mountain, you find the Yeti.",
+    "The air is silent. Unnerving",
+    "You cleave the Yeti in two."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "fireproof helmet"
+}
+
+boss[4] = {
+  messages: [
+    "A giant lava monster bursts from the ground",
+    "The volcano is dormant now.",
+    "You douse it in water."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "winter gear"
+}
+
+boss[7] = {
+  messages: [
+    "A giant ice bear blocks your path.",
+    "The snow has melted.",
+    "You throw lava from the volcano at it."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "water bottle"
+}
+
+boss[8] = {
+  messages: [
+    "A big sand worm comes out of the ground.",
+    "The desert is more harsh than ever before.",
+    "You let it swallow you, and kill it from inside."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "water breathing potion"
+}
+
+boss[11] = {
+  messages: [
+    "A massive shark blocks your path.",
+    "More dead fish are washing up now.",
+    "Slash. It's Dead."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "potion of strength"
+}
+
+boss[13] = {
+  messages: [
+    "You drink the potion of strength.",
+    "Men, women, and children lie dead on the ground. What have you done?",
+    "You kill everyone inside without thought."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "power"
+}
+
+boss[0] = {
+  messages: [
+    "You draw the sacred sword",
+    "The source of life in Lyrica lies dead before you.",
+    "You plunge the sword through the dragon's heart."
+  ],
+  state: ALIVE,
+  visible: false,
+  item: "treasure"
 }
 
 let items = ["axe"];
@@ -409,7 +498,7 @@ function useItem() {
           boss[mapLocation].state = ALIVE;
 
           //Reset the location's help message
-          helpMessages[mapLocation] = "You've slain the lord of the woods. The mist is gone, and the forest is silent.";
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "You take a swig of vodka. Don't drive anywhere."
@@ -418,14 +507,10 @@ function useItem() {
 
       case "torch":
         if (mapLocation === 1) {
-          gameMessage = "You step into the cave, torch lighting the way. There is a giant spider inside, blocking your way.";
 
-          //Add the sword to the world
-          items.push("climbing gear");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "You've eradicated this ecosystem's apex predator, and life in the cave has ceased entirely.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "You light your torch. You can see a little better, but nothing else happens."
@@ -434,14 +519,9 @@ function useItem() {
 
       case "climbing gear":
         if (mapLocation === 3) {
-          gameMessage = "You hike your way up the mountains. At the peak is a the Yeti.";
-
-          //Add the sword to the world
-          items.push("fireproof helmet");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "The Yeti, an elusive creature with good in it's heart and the missing link in human evolution. It's dead.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "There's nothing to climb."
@@ -450,14 +530,9 @@ function useItem() {
 
       case "fireproof helmet":
         if (mapLocation === 4) {
-          gameMessage = "You approach the volcano, and find a beast of fire.";
-
-          //Add the sword to the world
-          items.push("winter gear");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "The volcano is now dormant. No more land will be formed, and eventually, worldName will sink underwater.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "Where's the fire?"
@@ -466,14 +541,9 @@ function useItem() {
 
       case "winter gear":
         if (mapLocation === 7) {
-          gameMessage = "You make your way through the snow, and find a giant snake made from ice.";
-
-          //Add the sword to the world
-          items.push("water bottle");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "The snake is dead, and the tundra is warm now.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "The gear makes you sweat profusely due to the lack of any cold weather. You take it off."
@@ -482,14 +552,9 @@ function useItem() {
 
       case "water bottle":
         if (mapLocation === 8) {
-          gameMessage = "You trudge through the desert, coming across a giant sandworm.";
-
-          //Add the sword to the world
-          items.push("water breathing potion");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "The sandworm is dead, and the desert is hotter and more unforgiving than ever before.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "You drink some water. Refreshing."
@@ -498,14 +563,9 @@ function useItem() {
 
       case "water breathing potion":
         if (mapLocation === 11) {
-          gameMessage = "You dive underwater, but your path is blocked by a massive shark.";
-
-          //Add the sword to the world
-          items.push("potion of strength");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "Another dead god. You killed it.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "You're not drowning, calm down."
@@ -514,14 +574,9 @@ function useItem() {
 
       case "potion of strength":
         if (mapLocation === 13) {
-          gameMessage = "You take down the enemy base effortlessly.";
-
-          //Add the sword to the world
-          items.push("power");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "Men, women, and children lie dead on the ground. you're a monster.";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "This could help you take out your enemies."
@@ -530,7 +585,7 @@ function useItem() {
 
       case "power":
         if (mapLocation === 6) {
-          gameMessage = "Even though you are unworthy, you are strong enough to rip the sacred sword out of the ground anyway.";
+          gameMessage = "You rip the sword out of the ground.";
 
           //Add the sword to the world
           items.push("excalibur");
@@ -546,14 +601,9 @@ function useItem() {
 
       case "excalibur":
         if (mapLocation === 0) {
-          gameMessage = "You plunge the sword through the dragon's head, and steal it's treasure.";
-
-          //Add the sword to the world
-          items.push("treasure");
-          itemLocations.push(mapLocation);
-
-          //Reset the location's help message
-          helpMessages[mapLocation] = "The source of life in worldName is dead. What have you done?";
+          boss[mapLocation].visible = true;
+          boss[mapLocation].state = ALIVE;
+          helpMessages[mapLocation] = "There is nothing else to do here.";
         }
         else {
           gameMessage = "As you stare at your reflection in the holy sword's blade, you can feel the eyes of god gaze down at you with dissapointment."
@@ -564,7 +614,7 @@ function useItem() {
         if (mapLocation === 15) {
           gameMessage = "You walk along the path, and see nothing. You feel nothing. This is your purgatory.";
 
-          mapLocation === 16
+          mapLocation ++
 
           //Reset the location's help message
           helpMessages[mapLocation] = "You stare into the void. You feel regret.";
